@@ -47,7 +47,7 @@ class AreaCalc:
         invertedImg = self.image.copy()
         for pixel in visited:
             invertedImg.putpixel(pixel, invertedColor)
-        return invertedImg
+        return (invertedImg, len(visited))
 
 
 
@@ -60,7 +60,7 @@ class App:
         self.pimage = ImageTk.PhotoImage(self.image)
         width  = self.pimage.width()
         height = self.pimage.height() 
-        self.frame = Tkinter.Frame(self.root, width=width, height=height)
+        self.frame = Tkinter.Frame(self.root)
         self.canvas = Tkinter.Canvas(self.frame,
                                      height = height,
                                      width  = width)
@@ -68,14 +68,19 @@ class App:
         self.canvas.bind("<1>", self.click)
         self.canvas.pack()
 
+        self.sv = Tkinter.StringVar()
+        self.label = Tkinter.Label(self.frame, textvariable=self.sv)
+        self.label.pack()
+
         self.frame.pack()
         self.root.mainloop()
 
     def click(self, event):
         #print("Clicked at: ", event.x, event.y)
-        newImg = self.areaCalc.calc(event.x, event.y)
+        (newImg, size) = self.areaCalc.calc(event.x, event.y)
         self.pimage = ImageTk.PhotoImage(newImg)
         self.canvas.create_image(0, 0, anchor='nw', image=self.pimage)
+        self.sv.set(str(size))
 
 App()
 
