@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import Tkinter
+import Tkinter, tkFileDialog
 from PIL import Image, ImageTk
 from collections import deque
 
@@ -55,7 +55,10 @@ class AreaCalc:
 class App:
     def __init__(self):
         self.root = Tkinter.Tk()
-        self.image = Image.open("1.png")
+        fname = tkFileDialog.askopenfilename()
+        if fname == '':
+            exit(0)
+        self.image = Image.open(fname)
         self.areaCalc = AreaCalc(self.image)
         self.pimage = ImageTk.PhotoImage(self.image)
         width  = self.pimage.width()
