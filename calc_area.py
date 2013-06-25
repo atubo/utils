@@ -8,7 +8,11 @@ class AreaCalc:
         self.image = image
 
     def sameColor(self, pixel, p0):
-        return self.image.getpixel(pixel) == self.image.getpixel(p0)
+        maxDist = 25
+        (r0, g0, b0) = self.image.getpixel(p0)
+        (r1, g1, b1) = self.image.getpixel(pixel)
+        return (abs(r0-r1) <= maxDist and abs(g0-g1) <= maxDist and
+                abs(b0-b1) <= maxDist)
 
     def inRange(self, pixel):
         (sizeX, sizeY) = self.image.size
